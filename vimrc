@@ -29,6 +29,7 @@ autocmd BufNewFile,BufRead *.py
         \| set shiftwidth=4
         \| set expandtab
         \| inoremap {<CR> {<CR><BS><BS>}<Esc>O<Tab><BS><BS>
+				\| nnoremap fb :call FormatBlack()<CR>:edit!<CR>
 
 function BracketClose(bracket_char)
         let pos = getpos('.')
@@ -45,6 +46,11 @@ function BracketClose(bracket_char)
                 let pos[2] += 1
                 call setpos('.', pos)
         endif
+endfunction
+
+function FormatBlack()
+	let file_path = expand('%:p')	
+	call system('black '. file_path)
 endfunction
 
 inoremap ) <Esc>:call BracketClose(')')<CR>a
