@@ -16,8 +16,6 @@ set background=dark
 colorscheme vscode
 
 nnoremap <space> za
-inoremap ' ''<Esc>i
-inoremap " ""<Esc>i
 inoremap ( ()<Esc>i
 inoremap [ []<Esc>i
 inoremap { {}<Esc>i
@@ -29,30 +27,46 @@ autocmd BufNewFile,BufRead *.py
         \| set shiftwidth=4
         \| set expandtab
         \| inoremap {<CR> {<CR><BS><BS>}<Esc>O<Tab><BS><BS>
-				\| nnoremap fb :call FormatBlack()<CR>:edit!<CR>
+				\| nnoremap fb :call Black()<CR>:edit!<CR>
+
 
 function BracketClose(bracket_char)
-        let pos = getpos('.')
-        let line = getline('.')
-        if col('.') ==# len(line)
-                call setline('.', line . a:bracket_char)
-                let pos[2] += 1
-                call setpos('.', pos)
-        elseif line[col('.')] !=# a:bracket_char
-                call setline('.', line[:col('.') - 1] . a:bracket_char . line[col('.'):])
-                let pos[2] += 1
-                call setpos('.', pos)
-        else
-                let pos[2] += 1
-                call setpos('.', pos)
-        endif
+	let pos = getpos('.')
+	let line = getline('.')
+	if col('.') ==# len(line)
+		call setline('.', line . a:bracket_char)
+	elseif line[col('.')] !=# a:bracket_char
+		call setline('.', line[:col('.') - 1] . a:bracket_char . line[col('.'):])
+	endif
+	let pos[2] += 1
+	call setpos('.', pos)
 endfunction
 
-function FormatBlack()
+
+function QuotMark(quote_char)
+	let pos = getpos('.')
+	let line = getline('.')
+	if col('.') ==# 1 && line[col('.')] !=# a:quote_char
+		call setline('.', a:quote_char . a:quote_char . line)
+		let pos[2] -= 1
+	elseif col('.') ==# len(line)
+		call setline('.', line . a:quote_char . a:quote_char)
+	elseif line[col('.')] !=# a:quote_char
+		call setline('.', line[:col('.') - 1] . a:quote_char . a:quote_char . line[col('.'):])
+	endif
+	let pos[2] += 1
+	call setpos('.', pos)
+endfunction
+
+
+function Black()
 	let file_path = expand('%:p')	
 	call system('black '. file_path)
 endfunction
 
+
+inoremap ' <Esc>:call QuotMark("'")<CR>a
+inoremap " <Esc>:call QuotMark('"')<CR>a
 inoremap ) <Esc>:call BracketClose(')')<CR>a
 inoremap ] <Esc>:call BracketClose(']')<CR>a
 inoremap } <Esc>:call BracketClose('}')<CR>a
