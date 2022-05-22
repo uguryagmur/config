@@ -12,13 +12,18 @@ require('packer').startup(function()
     requires = { { 'nvim-lua/plenary.nvim' } }
   }
 
+	use 'windwp/nvim-autopairs'
+
   -- plugins for lsp configuration
   use 'neovim/nvim-lspconfig'
+	use 'williamboman/nvim-lsp-installer'
+
   use 'hrsh7th/cmp-nvim-lsp'
   use 'hrsh7th/cmp-buffer'
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-cmdline'
   use 'hrsh7th/nvim-cmp'
+  use 'hrsh7th/nvim-compe'
 end)
 
 
@@ -28,7 +33,3 @@ require 'nvim-treesitter.configs'.setup {
   ensure_installed = { "c", "cpp", "cuda", "python" },
   highlight = { enable = true }
 }
-
-local on_attach = function(_, bufnr)
-  return require('completion').on_attach
-end

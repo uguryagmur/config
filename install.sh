@@ -1,3 +1,4 @@
+sudo apt install ripgrep
 echo Installing configurations...
 if ! command -v nvim &> /dev/null
 then
