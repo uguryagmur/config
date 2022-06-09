@@ -21,7 +21,7 @@ nnoremap <space> za
 inoremap ( ()<Esc>i
 inoremap [ []<Esc>i
 inoremap { {}<Esc>i
-inoremap {<CR> {<CR>}<Esc>O<Tab><BS>
+inoremap {<CR> {<CR>}<Esc>O<Tab><Tab><BS>
 
 " Find files using Telescope command-line sugar.
 nnoremap ff <cmd>Telescope find_files<cr>
@@ -74,11 +74,11 @@ function Black()
 	call system('black '. file_path)
 endfunction
 
-"inoremap ' <Esc>:call QuotMark("'")<CR>a
-"inoremap /" <Esc>:call QuotMark('"')<CR>a
-"inoremap ) <Esc>:call BracketClose(')')<CR>a
-"inoremap ] <Esc>:call BracketClose(']')<CR>a
-"inoremap } <Esc>:call BracketClose('}')<CR>a
+inoremap ' <Esc>:call QuotMark("'")<CR>a
+inoremap /" <Esc>:call QuotMark('"')<CR>a
+inoremap ) <Esc>:call BracketClose(')')<CR>a
+inoremap ] <Esc>:call BracketClose(']')<CR>a
+inoremap } <Esc>:call BracketClose('}')<CR>a
 
 lua require('init')
 nnoremap cne :lua compile_and_execute_cc_file()<CR>
@@ -94,5 +94,3 @@ nnoremap fh <cmd>Telescope help_tags<cr>
 autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
 
 let g:completion_enable_auto_popup = 0
-imap <tab> <Plug>(completion_smart_tab)
-imap <s-tab> <Plug>(completion_smart_s_tab)
