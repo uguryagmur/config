@@ -91,6 +91,12 @@ nnoremap fg <cmd>Telescope live_grep<cr>
 nnoremap fb <cmd>Telescope buffers<cr>
 nnoremap fh <cmd>Telescope help_tags<cr>
 
+" Toggleterm setup
+autocmd TermEnter term://*toggleterm#*
+      \ tnoremap <silent><c-t> <Cmd>exe v:count1 . "ToggleTerm"<CR>
+nnoremap <silent><c-t> <Cmd>exe v:count1 . "ToggleTerm"<CR>
+inoremap <silent><c-t> <Esc><Cmd>exe v:count1 . "ToggleTerm"<CR>
+
 autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
 
 let g:completion_enable_auto_popup = 0

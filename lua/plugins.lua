@@ -12,6 +12,11 @@ require("packer").startup(function()
     requires = { { "nvim-lua/plenary.nvim" } }
   }
 
+	-- plugin for built-in terminal in neovim
+	use {"akinsho/toggleterm.nvim", tag = 'v1.*', config = function()
+  	require("toggleterm").setup()
+	end}
+
   -- plugins for lsp configuration
   use "neovim/nvim-lspconfig"
 	use "williamboman/nvim-lsp-installer"
