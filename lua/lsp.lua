@@ -32,9 +32,17 @@ end
 
 require'lspconfig'.clangd.setup{
 	on_attach = on_attach,
-	--on_attach = require('completion').on_attach,
 	cmd = {"clangd"},
 	filetypes = {"c", "cc", "cpp", "obj", "objcpp"},
+	root_dir = require("lspconfig.util").root_pattern(
+		'.clangd',
+		'.clang-tidy',
+		'.clang-format',
+		'compile_commands.json',
+		'compile_flags.txt',
+		'configure.ac',
+		'.git'
+	),
 	single_file_support = true,
 	
 }
