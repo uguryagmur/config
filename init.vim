@@ -8,6 +8,7 @@ set ruler
 set number
 set hlsearch
 set autoread
+set syntax=on
 
 set tabstop=2
 set shiftwidth=2
@@ -23,6 +24,13 @@ inoremap [ []<Esc>i
 inoremap { {}<Esc>i
 inoremap {<CR> {<CR>}<Esc>O<Tab><Tab><BS>
 
+" competitive programming shortcuts 
+autocmd filetype cpp nnoremap <F9> :w <bar> !g++ -std=c++17 % -o %:r -Wall<CR>
+autocmd filetype cpp nnoremap <F9> :w <bar> !g++ -std=c++17 % -o %:r -Wall -D DEBUG<CR>
+autocmd filetype cpp nnoremap <F10> :!type input.in <bar> %:r<CR>
+autocmd filetype python nnoremap <F9> :w <bar> !python %:r.py
+autocmd filetype python nnoremap <F10> :w <bar> !black %:r.py
+
 " Find files using Telescope command-line sugar.
 nnoremap ff <cmd>Telescope find_files<cr>
 nnoremap fg <cmd>Telescope live_grep<cr>
@@ -37,7 +45,6 @@ autocmd BufNewFile,BufRead *.py
         \| set shiftwidth=4
         \| set expandtab
         \| inoremap {<CR> {<CR><BS><BS>}<Esc>O<Tab><BS><BS>
-				\| nnoremap fb :call Black()<CR>:edit!<CR>
 
 
 function BracketClose(bracket_char)
@@ -69,11 +76,6 @@ function QuotMark(quote_char)
 endfunction
 
 
-function Black()
-	let file_path = expand('%:p')	
-	call system('black '. file_path)
-endfunction
-
 inoremap ' <Esc>:call QuotMark("'")<CR>a
 inoremap /" <Esc>:call QuotMark('"')<CR>a
 inoremap ) <Esc>:call BracketClose(')')<CR>a
@@ -81,15 +83,8 @@ inoremap ] <Esc>:call BracketClose(']')<CR>a
 inoremap } <Esc>:call BracketClose('}')<CR>a
 
 lua require('init')
-nnoremap cne :lua compile_and_execute_cc_file()<CR>
 
 set completeopt=menu,menuone,noselect
-
-" Telescope normal mode key maps
-nnoremap ff <cmd>Telescope find_files<cr>
-nnoremap fg <cmd>Telescope live_grep<cr>
-nnoremap fb <cmd>Telescope buffers<cr>
-nnoremap fh <cmd>Telescope help_tags<cr>
 
 " Toggleterm setup
 autocmd TermEnter term://*toggleterm#*
