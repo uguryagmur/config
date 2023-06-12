@@ -1,26 +1,39 @@
 sudo apt install ripgrep
-echo Installing configurations...
-if ! command -v nvim &> /dev/null
+
+echo creating directory for neovim setup
+if [! -d ~/Shop ]
 then
-	cp ./vimrc ~/.vimrc
-	if [ ! -d ~/.vim ]
-	then
-		mkdir ~/.vim
-		echo .vim folder is created in home
-	fi
-	cp ./vscode.vim ~/colors.vim/
-else
-	echo NVIM
-	if [ ! -d ~/.config/nvim/init.vim ]
-	then
-		mkdir ~/.config/nvim
-		mkdir ~/.config/nvim/colors
-		echo nvim folder is created in ~/.config
-	elif [ ! -d ~/.config/nvim/colors ]
-	then
-		mkdir ~/.config/nvim/colors
-		echo colors folder is created in ~/.config/nvim
-	fi
-	cp ./vimrc ~/.config/nvim/init.vim
-	cp ./vscode.vim ~/.config/nvim/colors/vscode.vim
+	mkdir -p ~/Shop/neovim
+elif [! -d ~/Shop/neovim ]
+	mkdir ~/Shop/neovim
 fi
+
+echo installing neovim
+pushd ~/Shop/neovim
+curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+chmod u+x nvim.appimage
+
+echo installing packer for neovim package management
+git clone --depth 1 https://github.com/wbthomason/packer.nvim\
+ ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+
+echo neoviim alias setup on bashrc
+echo "# neovim alias setup" >> ~/.bashrc
+echo "alias vim=~/Shop/neovim/nvim.appimage" >> ~/.bashrc
+echo "alias nvim=~/Shop/neovim/nvim.appimage" >> ~/.bashrc
+echo "alias neovim=~/Shop/neovim/nvim.appimage" >> ~/.bashrc
+git config --global core.editor "~/Shop/neovim/nvim.appimage"
+
+echo installing configurations for neovim
+
+if [ ! -d ~/.config/nvim/colors ]
+then
+	mkdir -p ~/.config/nvim/colors
+fi
+
+cp ./init.vim ~/.config/nvim/init.vim
+cp ./vscode.vim ~/.config/nvim/colors/vscode.vim
+cp -r ./lua ~/.config/nvim
+cp -r ~/.config/nvim
+
+echo configurations are completed
