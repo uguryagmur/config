@@ -92,6 +92,4 @@ autocmd TermEnter term://*toggleterm#*
 nnoremap <silent><c-t> <Cmd>exe v:count1 . "ToggleTerm direction=float"<CR>
 inoremap <silent><c-t> <Esc><Cmd>exe v:count1 . "ToggleTerm direction=float"<CR>
 
-autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
-
 let g:completion_enable_auto_popup = 0
