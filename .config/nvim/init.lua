@@ -58,18 +58,55 @@ lazy.opts = {}
 lazy.setup({
 	{'nvim-telescope/telescope.nvim', dependencies = { 'nvim-lua/plenary.nvim' }},
 	{'nvim-lualine/lualine.nvim', dependencies = { 'nvim-tree/nvim-web-devicons' }},
-	{'neovim/nvim-lspconfig'}
+	{'akinsho/bufferline.nvim', version = "*", dependencies = 'nvim-tree/nvim-web-devicons'},
+	{'neovim/nvim-lspconfig'},
+	{'Mofiqul/vscode.nvim'}
 })
+
+-- colorscheme configuration
+vim.o.background = 'dark'
+local c = require('vscode.colors').get_colors()
+require('vscode').setup({
+    -- Alternatively set style in setup
+    -- style = 'light'
+
+    -- Enable transparent background
+    transparent = true,
+
+    -- Enable italic comment
+    italic_comments = true,
+
+    -- Disable nvim-tree background color
+    disable_nvimtree_bg = true,
+
+    -- Override colors (see ./lua/vscode/colors.lua)
+    color_overrides = {
+        vscLineNumber = '#FFFFFF',
+    },
+
+    -- Override highlight groups (see ./lua/vscode/theme.lua)
+    group_overrides = {
+        -- this supports the same val table as vim.api.nvim_set_hl
+        -- use colors from this colorscheme by requiring vscode.colors!
+        Cursor = { fg=c.vscDarkBlue, bg=c.vscLightGreen, bold=true },
+    }
+})
+require('vscode').load()
 
 
 -- lualine configuration
 require('lualine').setup({
   options = {
-    icons_enabled = false,
-		section_separators = '',
-		component_separators = '',
+    --icons_enabled = false,
+		--section_separators = '',
+		--component_separators = '',
+		theme = 'vscode',
   }
 })
+
+
+-- bufferline configuration
+require("bufferline").setup{}
 
 
 -- telescope configuration 
