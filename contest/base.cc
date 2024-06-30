@@ -1,12 +1,4 @@
-#include <algorithm>
-#include <bitset>
-#include <cmath>
-#include <functional>
-#include <iostream>
-#include <map>
-#include <numeric>
-#include <set>
-#include <vector>
+#include <bits/stdc++.h>
 
 #ifdef DEBUG
 #include "debug.cc"
@@ -43,7 +35,10 @@ void read_array(size_t size, long long *arr[]) {
   }
 }
 
-void solve(int test_num) {}
+void solve(int test_num)
+{
+  
+}
 
 int main() {
   int test_num;
