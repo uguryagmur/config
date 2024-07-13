@@ -14,13 +14,18 @@
 
 
 ;; functional configurations
-(require 'evil)
-(evil-mode 1)
 
 (require 'company)
 (company-mode t)
+(add-hook 'after-init-hook 'global-company-mode)
 
 (require 'eglot)
+(add-hook 'c-mode-hook 'eglot-ensure)
+(add-hook 'c++-mode-hook 'eglot-ensure)
+(add-hook 'python-mode-hook 'eglot-ensure)
+
+(require 'evil)
+(evil-mode 1)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
