@@ -1,0 +1,14 @@
+{
+    "editor.fontSize": 20,
+    "debug.console.fontSize": 18,
+    "terminal.integrated.fontSize": 18,
+    "chat.editor.fontSize": 16,
+    "markdown.preview.fontSize": 18,
+    "window.menuBarVisibility": "toggle",
+    "workbench.activityBar.location": "bottom",
+    "workbench.sideBar.location": "right",
+    "workbench.colorTheme": "Default High Contrast",
+    "editor.scrollbar.horizontal": "hidden",
+    "editor.scrollbar.vertical": "hidden",
+    "workbench.panel.defaultLocation": "right"
+}
