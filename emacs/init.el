@@ -20,9 +20,29 @@
 (add-hook 'after-init-hook 'global-company-mode)
 
 (require 'eglot)
+(add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd"))
 (add-hook 'c-mode-hook 'eglot-ensure)
 (add-hook 'c++-mode-hook 'eglot-ensure)
 (add-hook 'python-mode-hook 'eglot-ensure)
+
+
+(customize-set-variable 'eglot-autoshutdown t)
+(customize-set-variable 'eglot-extend-to-xref t)
+
+(with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs
+	'((c-mode c++-mode)
+		. ("clangd"
+		    "-j=8"
+		    "--log=error"
+		    "--malloc-trim"
+		    "--background-index"
+		    "--clang-tidy"
+		    "--cross-file-rename"
+		    "--completion-style=detailed"
+		    "--pch-storage=memory"
+		    "--header-insertion=never"
+		    "--header-insertion-decorators=0"))))
 
 (require 'evil)
 (evil-mode 1)
