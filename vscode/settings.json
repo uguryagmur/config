@@ -1,14 +1,134 @@
 {
-    "editor.fontSize": 20,
+    // font settings
+    "editor.fontSize": 24,
     "debug.console.fontSize": 18,
-    "terminal.integrated.fontSize": 18,
-    "chat.editor.fontSize": 16,
-    "markdown.preview.fontSize": 18,
-    "window.menuBarVisibility": "toggle",
-    "workbench.activityBar.location": "bottom",
+    "scm.inputFontSize": 18,
+    "terminal.integrated.fontSize": 20,
+    "chat.editor.fontSize": 18,
+    "markdown.preview.fontSize": 20,
+    "editor.fontFamily": "CaskaydiaCove Nerd Font Mono",
+
+    // window see
+    "window.commandCenter": false,
     "workbench.sideBar.location": "right",
-    "workbench.colorTheme": "Default High Contrast",
-    "editor.scrollbar.horizontal": "hidden",
-    "editor.scrollbar.vertical": "hidden",
-    "workbench.panel.defaultLocation": "right"
+    "window.customTitleBarVisibility": "auto",
+    "workbench.panel.defaultLocation": "right",
+
+    "vim.leader": "<space>",
+    "vim.smartRelativeLine": true,
+    "vim.useSystemClipboard": true,
+    "editor.cursorSurroundingLines": 8,
+
+    "vim.handleKeys": {
+        "<C-c>": false,
+        "<C-b>": false,
+        "<C-p>": false,
+    },
+
+    "vim.normalModeKeyBindings": [
+        {
+            "before": ["g", "p", "d"],
+            "commands": ["editor.action.peekDefinition"]
+        },
+        {
+            "before": ["g", "h"],
+            "commands": ["editor.action.showDefinitionPreviewHover"]
+        },
+        {
+            "before": ["g", "i"],
+            "commands": ["editor.action.goToImplementation"]
+        },
+        {
+            "before": ["g", "p", "i"],
+            "commands": ["editor.action.peekImplementation"]
+        },
+        {
+            "before": ["g", "q"],
+            "commands": ["editor.action.quickFix"]
+        },
+        {
+            "before": ["g", "r"],
+            "commands": ["editor.action.referenceSearch.trigger"]
+        },
+        {
+            "before": ["g", "t"],
+            "commands": ["editor.action.goToTypeDefinition"]
+        },
+        {
+            "before": ["g", "p", "t"],
+            "commands": ["editor.action.peekTypeDefinition"]
+        },
+        {
+            "before": ["g", "h"],
+            "commands": ["editor.action.showDefinitionPreviewHover"]
+        },
+        {
+            "before": ["<leader>", "e"],
+            "commands": ["workbench.view.explorer"]
+        },
+        {
+            "before": ["H"], // Focus previous tab at the left
+            "commands": ["workbench.action.previousEditor"]
+        },
+        {
+            "before": ["L"], // Focus next tab at the right
+            "commands": ["workbench.action.nextEditor"]
+        },
+        {
+            "before": ["Q"], // Close current tab
+            "after": ["<C-w>", "q"]
+        },
+        {
+            "before": ["H"], // Focus previous tab at the left
+            "commands": ["workbench.action.previousEditor"]
+        },
+        {
+            "before": ["L"], // Focus next tab at the right
+            "commands": ["workbench.action.nextEditor"]
+        },
+        {
+            "before": ["Q"], // Close current tab
+            "after": ["<C-w>", "q"]
+        },
+        {
+            "before": ["|"], // Split tab vertically
+            "after": ["<C-w>", "v"]
+        },
+        {
+            "before": ["_"], // Split tab horizontally
+            "after": ["<C-w>", "s"]
+        },
+         {
+            "before": ["<C-h>"], // Focus split window at left
+            "commands": ["workbench.action.focusLeftGroup"]
+        },
+        {
+            "before": ["<C-j>"], // Focus split window at right
+            "commands": ["workbench.action.focusBelowGroup"]
+        },
+        {
+            "before": ["<C-k>"], // Focus split window at above
+            "commands": ["workbench.action.focusAboveGroup"]
+        },
+        {
+            "before": ["<C-l>"], // Focus split window at below
+            "commands": ["workbench.action.focusRightGroup"]
+        },
+        {
+            "before": ["<leader>", "s"], // Search symbol
+            "commands": ["workbench.action.showAllSymbols"]
+        },
+        {
+            "before": ["<leader>", "g", "r"], // Revert hunk
+            "commands": ["git.revertSelectedRanges"]
+        },
+        {
+            "before": ["<leader>", "g", "j"], // Jump to next Git change
+            "commands": ["workbench.action.editor.nextChange"]
+        },
+        {
+            "before": ["<leader>", "g", "k"], // Jump to previous Git change
+            "commands": ["workbench.action.editor.previousChange"]
+        }
+    ],
 }
