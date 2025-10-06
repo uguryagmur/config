@@ -51,12 +51,29 @@ require("lazy").setup({
   -- Floating terminal
   { "voldikss/vim-floaterm" },
 
-  -- Nordic Theme
-  { "AlexvZyl/nordic.nvim", lazy = false, priority = 1000 }
+    -- Auto-pairs plugin for bracket completion
+  { "windwp/nvim-autopairs" },
+
+  -- Gruvbox Theme (replaced Nordic)
+  { "ellisonleao/gruvbox.nvim", lazy = false, priority = 1000 }
 })
 
+-- auto-pairs setup
+require("nvim-autopairs").setup({
+  check_ts = true, -- enable treesitter integration
+  ts_config = {
+    lua = {'string'},-- it will not add a pair on that treesitter node
+    javascript = {'template_string'},
+    java = false,-- don't check treesitter on java
+  }
+})
+
+-- integrate auto-pairs with nvim-cmp
+local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+local cmp = require('cmp')
+
 -- nordic setup
-require("nordic").load()
+require("gruvbox").load()
 
 -- lualine setup
 require("lualine").setup()
@@ -109,6 +126,12 @@ cmp.setup({
     { name = "path" },
   })
 })
+
+-- integrate autopairs with cmp
+cmp.event:on(
+  'confirm_done',
+  cmp_autopairs.on_confirm_done()
+)
 
 -- diagnostics config
 vim.diagnostic.config({
