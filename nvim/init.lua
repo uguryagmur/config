@@ -15,19 +15,34 @@ vim.keymap.set('n', '<leader>r', ':source $MYVIMRC<CR>', { noremap = true, silen
 -- Faster CursorHold for diagnostics popup
 vim.opt.updatetime = 300
 
--- Plugin manager: lazy.nvim
+-- Plugin manager: lazy.nvim (robust bootstrap)
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git", "clone", "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git", lazypath
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  local out = vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "--branch=stable",
+    "https://github.com/folke/lazy.nvim.git",
+    lazypath,
   })
+  if vim.v.shell_error ~= 0 then
+    vim.api.nvim_echo({
+      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+      { out, "WarningMsg" },
+      { "\nPress any key to exit..." },
+    }, true, {})
+    vim.fn.getchar()
+    os.exit(1)
+  end
 end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-  -- LSP + completion
+  -- LSP (still needed for server configs, but we use vim.lsp.config now)
   { "neovim/nvim-lspconfig" },
+
+  -- Completion
   { "hrsh7th/nvim-cmp" },
   { "hrsh7th/cmp-nvim-lsp" },
   { "hrsh7th/cmp-buffer" },
@@ -51,20 +66,20 @@ require("lazy").setup({
   -- Floating terminal
   { "voldikss/vim-floaterm" },
 
-    -- Auto-pairs plugin for bracket completion
+  -- Auto-pairs plugin for bracket completion
   { "windwp/nvim-autopairs" },
 
-  -- Gruvbox Theme (replaced Nordic)
+  -- Gruvbox Theme
   { "ellisonleao/gruvbox.nvim", lazy = false, priority = 1000 }
 })
 
 -- auto-pairs setup
 require("nvim-autopairs").setup({
-  check_ts = true, -- enable treesitter integration
+  check_ts = true,
   ts_config = {
-    lua = {'string'},-- it will not add a pair on that treesitter node
+    lua = {'string'},
     javascript = {'template_string'},
-    java = false,-- don't check treesitter on java
+    java = false,
   }
 })
 
@@ -72,7 +87,7 @@ require("nvim-autopairs").setup({
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 local cmp = require('cmp')
 
--- nordic setup
+-- gruvbox setup
 require("gruvbox").load()
 
 -- lualine setup
@@ -98,17 +113,27 @@ vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>", { silent = true, nor
 -- floaterm
 vim.keymap.set('n', '<leader>T', ':FloatermToggle<CR>', { noremap = true, silent = true })
 
--- LSP setup
-local lspconfig = require("lspconfig")
+-- ===================
+-- LSP setup (Neovim 0.11+ style)
+-- ===================
 
--- clangd
-lspconfig.clangd.setup {}
+-- Configure LSP servers using vim.lsp.config
+vim.lsp.config.clangd = {
+  cmd = { "clangd" },
+  filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+  root_markers = { ".clangd", "compile_commands.json", ".git" },
+}
 
--- pylsp
-lspconfig.pylsp.setup {}
+vim.lsp.config.pylsp = {
+  cmd = { "pylsp" },
+  filetypes = { "python" },
+  root_markers = { "pyproject.toml", "setup.py", ".git" },
+}
 
--- nvim-cmp
-local cmp = require("cmp")
+-- Enable the servers
+vim.lsp.enable({ "clangd", "pylsp" })
+
+-- nvim-cmp setup
 cmp.setup({
   snippet = {
     expand = function(args)
@@ -135,7 +160,7 @@ cmp.event:on(
 
 -- diagnostics config
 vim.diagnostic.config({
-  virtual_text = false, -- cleaner look; popup will show info
+  virtual_text = false,
   signs = true,
   underline = true,
   update_in_insert = false,
@@ -148,7 +173,7 @@ vim.diagnostic.config({
   },
 })
 
--- auto LSP keymaps
+-- LSP keymaps (Neovim 0.11+ style)
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(ev)
     local opts = { buffer = ev.buf }
@@ -182,4 +207,3 @@ vim.api.nvim_create_autocmd("CursorHold", {
 vim.filetype.add({
   extension = { cu = "cpp" }
 })
-
